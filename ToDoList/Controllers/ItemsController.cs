@@ -1,52 +1,37 @@
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Models;
 using System.Collections.Generic;
-using MySql.Data.MySqlClient;
+using System.Linq;
 
 namespace ToDoList.Controllers
 {
-    public class ItemsController : Controller
+  public class ItemsController : Controller
+  {
+    private readonly ToDoListContext _db;
+
+    public ItemsController(ToDoListContext db)
     {
-        //ListItem list = new ListItem();
-
-        [HttpGet("/items")]
-        public ActionResult Index()
-        {
-            List<Item> itemList = Item.getAllItems();
-            return View(itemList);
-            
-            //return View(list.toStirng());
-        }
-        [HttpGet("/items/new")]
-        public ActionResult CreateForm()
-        {
-            return View();
-        }
-
-        [HttpPost("/items")]
-        public ActionResult Index(string description,int id)
-        {
-            Item myitem = new Item(description,id);
-            //list.addItem(item);
-
-            return RedirectToAction("Index");
-
-        }
-
-        [HttpPost("/items/delete")]
-        public ActionResult DeleteAll()
-        {
-            Item.clearAllItems();
-            return View();
-        }
-
-        [HttpGet("/items/find")]
-        public ActionResult FindItem(int findId)
-        {
-             Item findItem = Item.Find(findId);
-            return View(findItem);
-        }
-
-       
+      _db = db;
     }
+
+    public ActionResult Index()
+    {
+      List<Item> model = _db.Items.ToList();
+      return View(model);
+    }
+
+    public ActionResult Create()
+    {
+      return View();
+    }
+
+    [HttpPost]
+    public ActionResult Create(Item item)
+    {
+        _db.Items.Add(item);
+        _db.SaveChanges();
+        return RedirectToAction("Index");
+    }
+
+  }
 }
