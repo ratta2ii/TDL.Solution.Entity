@@ -1,0 +1,35 @@
+@using ToDoList.Models;
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Create a Custom Postcard!</title>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+    </head>
+    <body>
+<h1>To Do List</h1>
+@if (Model.Count == 0)
+{
+  <p>There are no items in the list.</p>
+}
+<ul>
+    @foreach (Item item in Model )
+    {
+      
+        <li> @item.getDescription()</li>
+    }
+  
+</ul>
+<a href="/items/new">Add a new item.</a>
+<form action="/items/delete" method="post">
+  <button type="submit" class="btn btn-info" name="button">Clear All Items</button>
+</form>
+<form action="/items/find" method="get">
+  <label for="findId">Find item by ID</label>
+  <input id="findId" name="findId" type="number">
+  <button type="submit" class="btn btn-info" name="button">Find Item</button>
+</form>
+@* <a href="/toDoListPath/new">Add a new item.</a> *@
+@* <a href="/">Go Home</a> *@
+</body>
+</html>
