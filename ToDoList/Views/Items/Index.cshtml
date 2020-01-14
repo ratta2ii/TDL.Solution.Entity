@@ -1,7 +1,6 @@
 @{
   Layout = "_Layout";
 }
-
 @using ToDoList.Models;
 @model List<ToDoList.Models.Item>;
 
@@ -14,11 +13,16 @@
   }
 </ul>
 
+
+
 @* I am a link to the Create method on the ItemsController. A third argument specifies
    the controller. If the ActionLink method omits the third argument, the controller is 
    based on the folder you are in. (Currently in Items, so ItemsController.) *@
 
 <p>@Html.ActionLink("Add new item", "Create")</p>
+
+
+
 
 
 
